@@ -1,0 +1,18 @@
+svg {
+  width: 500px;
+  height: 500px;
+  background-color : silver;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+rect {
+  cursor: move;
+}
+
+text {
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+}

@@ -2,6 +2,8 @@ new Vue({
   el: "#app",
   data: {
     url: "https://1.bp.blogspot.com/-5S8rmtezagQ/UnyHakT62TI/AAAAAAAAajc/TsAKmkq0wIE/s800/nihonchizu_area.png",
+    map_width: 500,
+    map_height: 500,
     height: 10,
     width: 20,
     font_color: "black",
@@ -77,6 +79,8 @@ new Vue({
     load: function (items) {
       this.items = items;
       for (let item of this.items) {
+        item.coordinate.x = item.coordinate.x * this.map_width;
+        item.coordinate.y = item.coordinate.y * this.map_height;
         item.stroke = `rgb(${item.rgb[0]}, ${item.rgb[1]}, ${item.rgb[2]})`;
       };
     },
@@ -89,7 +93,10 @@ new Vue({
           id: item.id,
           name: item.name,
           url: item.url,
-          coordinate: item.coordinate,
+          coordinate: {
+            x: item.coordinate.x / this.map_width,
+            y: item.coordinate.y / this.map_height
+          },
           rgb: item.rgb,
         })
       }

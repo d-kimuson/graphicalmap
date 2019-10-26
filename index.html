@@ -26,8 +26,11 @@
     <p>{{ saved_data }}</p>
     <h3>Graphical Map</h3>
 
-    <svg @mousemove="move($event)" @mouseup="move_end($event)" @mouseleave="move_end($event)"
-      :style="{ backgroundImage: 'url(' + url + ')' }">
+    <svg @mousemove="move($event)"
+         @mouseup="move_end($event)"
+         @mouseleave="move_end($event)"
+         :style="{ backgroundImage: 'url(' + url + ')',
+                   width: map_width + 'px', height: map_height + 'px' }">
 
       <!-- Show Mode(Have link) -->
       <a v-for="item in items" :href="item.url" v-if="!is_edit">

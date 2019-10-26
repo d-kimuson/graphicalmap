@@ -77,8 +77,7 @@ new Vue({
     },
     save: function () {
       for (let item of this.items) {
-        console.log(item.name);
-        console.log(item.coordinate);
+        console.log(`${item.name} => ${item.coordinate.x}, ${item.coordinate.y}`);
       }
     }
   }

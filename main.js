@@ -23,6 +23,7 @@ new Vue({
     req.send(null);
     var data = JSON.parse(req.responseText);
     this.load(data.items);
+    this.save();
   },
   methods: {
     select_item: function (id) {

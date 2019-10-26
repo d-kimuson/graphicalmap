@@ -31,21 +31,37 @@
 
       <!-- Show Mode(Have link) -->
       <a v-for="item in items" :href="item.url" v-if="!is_edit">
-        <rect @mousedown="move_start($event)" :x="item.coordinate.x" :y="item.coordinate.y" :height="height"
-          :width="width" :stroke="item.stroke" :stroke-width="width" />
-        <text :x="item.coordinate.x - width / 2" :y="item.coordinate.y + height / 2" :fill="font_color"
-          :font-size="font_size">
+        <rect @mousedown="move_start($event)"
+              :x="item.coordinate.x"
+              :y="item.coordinate.y"
+              :height="height"
+              :width="width"
+              :stroke="item.stroke"
+              :stroke-width="width" />
+        <text :x="item.coordinate.x - width / 2"
+              :y="item.coordinate.y + height / 2"
+              :fill="font_color"
+              :font-size="font_size">
           {{ item.name }}
         </text>
       </a>
 
       <!-- Edit Mode(Does not have link) -->
       <a v-for="item in items" v-if="is_edit">
-        <rect @mousedown="move_start($event)" @mouseover="select_item(item.id)" @mouseleave="unselect_item(item.id)"
-          :x="item.coordinate.x" :y="item.coordinate.y" :height="height" :width="width" :stroke="item.stroke"
-          :stroke-width="width" text="hoge" />
-        <text :x="item.coordinate.x - width / 2" :y="item.coordinate.y + height / 2" :fill="font_color"
-          :font-size="font_size">
+        <rect @mousedown="move_start($event)"
+              @mouseover="select_item(item.id)"
+              @mouseleave="unselect_item(item.id)"
+              :x="item.coordinate.x"
+              :y="item.coordinate.y"
+              :height="height"
+              :width="width"
+              :stroke="item.stroke"
+              :stroke-width="width"
+              text="hoge" />
+        <text :x="item.coordinate.x - width / 2"
+              :y="item.coordinate.y + height / 2"
+              :fill="font_color"
+              :font-size="font_size">
           {{ item.name }}
         </text>
       </a>

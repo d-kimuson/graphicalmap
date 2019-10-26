@@ -9,26 +9,20 @@ new Vue({
     selected: null,
     is_edit: true,
     items: [
-      {
-        id: 1,
-        name: "要素1(黄色)",
-        url: "url1",
-        coordinate: { x: 0, y: 0 },
-        stroke: "rgb(0, 255, 0)",
-      },
-      {
-        id: 2,
-        name: "要素2(赤)",
-        url: "url2",
-        coordinate: { x: 300, y: 300 },
-        stroke: "rgb(255, 0, 0)",
-      },
     ],
     prev_pos: {  // previous coordinate
       x: 0,
       y: 0,
     },
     is_moving: false,  // moving
+    saved_data: "",
+  },
+  mounted: function () {
+    const req = new XMLHttpRequest();
+    req.open("GET", "data.json", false);
+    req.send(null);
+    var data = JSON.parse(req.responseText);
+    this.load(data.items);
   },
   methods: {
     select_item: function (id) {
@@ -75,10 +69,31 @@ new Vue({
         console.log("end:   [%d, %d]", this.prev_pos.x, this.prev_pos.y);
       }
     },
-    save: function () {
+    load_from_data: function () {
+      let data = JSON.parse(this.saved_data);
+      this.load(data.items);
+    },
+    load: function (items) {
+      this.items = items;
       for (let item of this.items) {
-        console.log(`${item.name} => ${item.coordinate.x}, ${item.coordinate.y}`);
+        item.stroke = `rgb(${item.rgb[0]}, ${item.rgb[1]}, ${item.rgb[2]})`;
+      };
+    },
+    save: function () {
+      let data = {
+        items: []
       }
+      for (let item of this.items) {
+        data.items.push({
+          id: item.id,
+          name: item.name,
+          url: item.url,
+          coordinate: item.coordinate,
+          rgb: item.rgb,
+        })
+      }
+
+      this.saved_data = JSON.stringify(data);
     }
   }
 });

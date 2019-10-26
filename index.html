@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <link rel="stylesheet" href="main.css">
+  <script src="https://cdn.jsdelivr.net/npm/vue"></script>
   <title>VueDrag</title>
 </head>
 
@@ -19,56 +20,38 @@
     <label v-if="!is_edit" for="checkbox">Show Mode</label>
     <br>
 
-    <!-- Post Items data -->
+    <!-- Saved Data -->
     <button @click="save">Save</button>
-
+    <button @click="load_from_data">Load</button>
+    <p>{{ saved_data }}</p>
     <h3>Graphical Map</h3>
 
-    <svg @mousemove="move($event)"
-         @mouseup="move_end($event)"
-         @mouseleave="move_end($event)"
-         :style="{ backgroundImage: 'url(' + url + ')' }">
+    <svg @mousemove="move($event)" @mouseup="move_end($event)" @mouseleave="move_end($event)"
+      :style="{ backgroundImage: 'url(' + url + ')' }">
 
       <!-- Show Mode(Have link) -->
       <a v-for="item in items" :href="item.url" v-if="!is_edit">
-        <rect @mousedown="move_start($event)"
-              :x="item.coordinate.x"
-              :y="item.coordinate.y"
-              :height="height"
-              :width="width"
-              :stroke="item.stroke"
-              :stroke-width="width" />
-        <text :x="item.coordinate.x - width / 2"
-              :y="item.coordinate.y + height / 2"
-              :fill="font_color"
-              :font-size="font_size">
+        <rect @mousedown="move_start($event)" :x="item.coordinate.x" :y="item.coordinate.y" :height="height"
+          :width="width" :stroke="item.stroke" :stroke-width="width" />
+        <text :x="item.coordinate.x - width / 2" :y="item.coordinate.y + height / 2" :fill="font_color"
+          :font-size="font_size">
           {{ item.name }}
         </text>
       </a>
 
       <!-- Edit Mode(Does not have link) -->
       <a v-for="item in items" v-if="is_edit">
-        <rect @mousedown="move_start($event)"
-              @mouseover="select_item(item.id)"
-              @mouseleave="unselect_item(item.id)"
-              :x="item.coordinate.x"
-              :y="item.coordinate.y"
-              :height="height"
-              :width="width"
-              :stroke="item.stroke"
-              :stroke-width="width"
-              text="hoge" />
-        <text :x="item.coordinate.x - width / 2"
-              :y="item.coordinate.y + height / 2"
-              :fill="font_color"
-              :font-size="font_size">
+        <rect @mousedown="move_start($event)" @mouseover="select_item(item.id)" @mouseleave="unselect_item(item.id)"
+          :x="item.coordinate.x" :y="item.coordinate.y" :height="height" :width="width" :stroke="item.stroke"
+          :stroke-width="width" text="hoge" />
+        <text :x="item.coordinate.x - width / 2" :y="item.coordinate.y + height / 2" :fill="font_color"
+          :font-size="font_size">
           {{ item.name }}
         </text>
       </a>
     </svg>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/vue"></script>
   <script src="main.js"></script>
 </body>
 

@@ -19,6 +19,12 @@
     <label v-if="is_edit" for="checkbox">Edit Mode</label>
     <label v-if="!is_edit" for="checkbox">Show Mode</label>
     <br>
+    <input type="range"
+           v-model="size"
+           min=100
+           max=1000
+           @mousedown="slide_start"
+           @mouseup="slide_end" />
 
     <!-- Saved Data -->
     <h2>Save Demo</h2>
@@ -48,7 +54,7 @@
          @mouseup="move_end($event)"
          @mouseleave="move_end($event)"
          :style="{ backgroundImage: 'url(' + url + ')',
-                   width: map_width + 'px', height: map_height + 'px' }">
+                   width: size * vh_rate + 'px', height: size + 'px' }">
 
       <!-- Show Mode(Have link) -->
       <a v-for="item in items" :href="item.url" v-if="!is_edit">

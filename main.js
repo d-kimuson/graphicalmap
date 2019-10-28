@@ -2,8 +2,8 @@ new Vue({
   el: "#app",
   data: {
     url: "https://1.bp.blogspot.com/-5S8rmtezagQ/UnyHakT62TI/AAAAAAAAajc/TsAKmkq0wIE/s800/nihonchizu_area.png",
-    map_width: 500,
-    map_height: 500,
+    vh_rate: 1,
+    size: 500,
     height: 10,
     width: 20,
     rx: 0.1,
@@ -13,6 +13,7 @@ new Vue({
     selected: null,
     is_edit: true,
     items: [],
+    bef_items: [],
     prev_pos: {  // previous coordinate
       x: 0,
       y: 0,
@@ -29,6 +30,23 @@ new Vue({
     this.save();
   },
   methods: {
+    slide_start: function () {
+      this.bef_items = [];
+      for (let i = 0; i != this.items.length; i += 1) {
+        this.bef_items.push({
+          x: this.items[i].coordinate.x / (this.size * this.vh_rate),
+          y: this.items[i].coordinate.y / this.size
+        })
+      }
+    },
+    slide_end: function () {
+      for (let i = 0; i != this.items.length; i += 1) {
+        this.items[i].coordinate = {
+          x: this.bef_items[i].x * (this.size * this.vh_rate),
+          y: this.bef_items[i].y * this.size
+        }
+      }
+    },
     select_item: function (id) {
       this.selected = id;
     },
@@ -61,7 +79,7 @@ new Vue({
               item.coordinate.y += diff_y;
             }
           }
-          // 前回のクリック座標を更新
+          // update position
           this.prev_pos.x = e.offsetX;
           this.prev_pos.y = e.offsetY;
         }
@@ -80,8 +98,8 @@ new Vue({
     load: function (items) {
       this.items = items;
       for (let item of this.items) {
-        item.coordinate.x = item.coordinate.x * this.map_width;
-        item.coordinate.y = item.coordinate.y * this.map_height;
+        item.coordinate.x = item.coordinate.x * (this.size * this.vh_rate);
+        item.coordinate.y = item.coordinate.y * this.size;
         item.stroke = `rgb(${item.rgb[0]}, ${item.rgb[1]}, ${item.rgb[2]})`;
       };
     },
@@ -101,8 +119,8 @@ new Vue({
           name: item.name,
           url: item.url,
           coordinate: {
-            x: item.coordinate.x / this.map_width,
-            y: item.coordinate.y / this.map_height
+            x: item.coordinate.x / (this.size * this.vh_rate),
+            y: item.coordinate.y / this.size
           },
           rgb: item.rgb,
         })

@@ -6,12 +6,13 @@ new Vue({
     map_height: 500,
     height: 10,
     width: 20,
+    rx: 0.1,
+    ry: 0.1,
     font_color: "black",
     font_size: 10,
     selected: null,
     is_edit: true,
-    items: [
-    ],
+    items: [],
     prev_pos: {  // previous coordinate
       x: 0,
       y: 0,
@@ -83,6 +84,12 @@ new Vue({
         item.coordinate.y = item.coordinate.y * this.map_height;
         item.stroke = `rgb(${item.rgb[0]}, ${item.rgb[1]}, ${item.rgb[2]})`;
       };
+    },
+    init: function () {
+      for (let item of this.items) {
+        item.coordinate.x = 0;
+        item.coordinate.y = 0;
+      }
     },
     save: function () {
       let data = {

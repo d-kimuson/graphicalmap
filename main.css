@@ -7,7 +7,7 @@ svg {
 }
 
 rect {
-  cursor: move;
+  z-index: 10;
 }
 
 text {
@@ -15,4 +15,9 @@ text {
   -moz-user-select: none;
   -webkit-user-select: none;
   -ms-user-select: none;
+  z-index: 5;
+}
+
+.item {
+  cursor: move;
 }

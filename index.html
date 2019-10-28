@@ -11,9 +11,9 @@
 </head>
 
 <body>
-  <!-- svg -->
   <div id="app">
-    <h3>Settings</h3>
+    <h1>Graphical Map Demo</h1>
+    <h2>Settings</h2>
     <!-- Checkbox for changing Edit mode and Show mode -->
     <input type="checkbox" id="checkbox" v-model="is_edit">
     <label v-if="is_edit" for="checkbox">Edit Mode</label>
@@ -21,10 +21,28 @@
     <br>
 
     <!-- Saved Data -->
-    <button @click="save">Save</button>
-    <button @click="load_from_data">Load</button>
-    <p>{{ saved_data }}</p>
-    <h3>Graphical Map</h3>
+    <h2>Save Demo</h2>
+    <div>
+      <button @click="init">Init</button>
+      <span>Initialize Elements Position</span>
+    </div>
+    <div>
+      <button @click="save">Save</button>
+      <span>Save current coordinates data to "Saved Data"</span>
+    </div>
+    <div>
+      <button @click="load_from_data">Load</button>
+      <span>Update Graphical Map from "Saved Data"</span>
+    </div>
+
+    <h3>Saved Data</h3>
+    <input type="text"
+           id="save-data"
+           v-model="saved_data"
+           :size="saved_data.length"
+           @keyup.enter="load_from_data" /><br />
+
+    <h2>Graphical Map</h2>
 
     <svg @mousemove="move($event)"
          @mouseup="move_end($event)"
@@ -37,11 +55,13 @@
         <rect @mousedown="move_start($event)"
               :x="item.coordinate.x"
               :y="item.coordinate.y"
+              :rx="rx"
+              :ry="ry"
               :height="height"
               :width="width"
               :stroke="item.stroke"
               :stroke-width="width" />
-        <text :x="item.coordinate.x - width / 2"
+        <text :x="item.coordinate.x"
               :y="item.coordinate.y + height / 2"
               :fill="font_color"
               :font-size="font_size">
@@ -50,19 +70,23 @@
       </a>
 
       <!-- Edit Mode(Does not have link) -->
-      <a v-for="item in items" v-if="is_edit">
-        <rect @mousedown="move_start($event)"
-              @mouseover="select_item(item.id)"
-              @mouseleave="unselect_item(item.id)"
-              :x="item.coordinate.x"
+      <a v-for="item in items"
+         v-if="is_edit"
+         class="item"
+         @mousedown="move_start($event)"
+         @mouseover="select_item(item.id)"
+         @mouseleave="unselect_item(item.id)">
+        <rect :x="item.coordinate.x"
               :y="item.coordinate.y"
+              :rx="rx"
+              :ry="ry"
               :height="height"
               :width="width"
               :stroke="item.stroke"
-              :stroke-width="width"
-              text="hoge" />
-        <text :x="item.coordinate.x - width / 2"
+              :stroke-width="width" />
+        <text :x="item.coordinate.x"
               :y="item.coordinate.y + height / 2"
+              :textLength="width"
               :fill="font_color"
               :font-size="font_size">
           {{ item.name }}

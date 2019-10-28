@@ -1,3 +1,9 @@
 # Graphical Map
 
-[Link](https://kaito1002.github.io/graphicalmap/)
+- [Let's Try](https://kaito1002.github.io/graphicalmap/)
+
+## 管理サーバー起動
+
+``` sh
+$ npx http-server
+```

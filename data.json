@@ -4,14 +4,20 @@
       "id": 1,
       "name": "要素1",
       "url": "link1.html",
-      "coordinate": {"x": 0, "y": 0},
+      "coordinate": {
+        "x": 0,
+        "y": 0
+      },
       "rgb": [255, 0, 0]
     },
     {
       "id": 2,
       "name": "要素2",
       "url": "link2.html",
-      "coordinate": {"x": 0.2, "y": 0.2},
+      "coordinate": {
+        "x": 0.2,
+        "y": 0.2
+      },
       "rgb": [0, 255, 0]
     }
   ]

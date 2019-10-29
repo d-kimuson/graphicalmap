@@ -32,7 +32,7 @@ new Vue({
   methods: {
     slide_start: function () {
       this.bef_items = [];
-      for (let i = 0; i != this.items.length; i += 1) {
+      for (let i = 0; i <= this.items.length; i += 1) {
         this.bef_items.push({
           x: this.items[i].coordinate.x / (this.size * this.vh_rate),
           y: this.items[i].coordinate.y / this.size
@@ -40,7 +40,7 @@ new Vue({
       }
     },
     slide_end: function () {
-      for (let i = 0; i != this.items.length; i += 1) {
+      for (let i = 0; i <= this.items.length; i += 1) {
         this.items[i].coordinate = {
           x: this.bef_items[i].x * (this.size * this.vh_rate),
           y: this.bef_items[i].y * this.size

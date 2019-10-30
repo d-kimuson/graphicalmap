@@ -54,7 +54,8 @@
          @mouseup="move_end($event)"
          @mouseleave="move_end($event)"
          :style="{ backgroundImage: 'url(' + url + ')',
-                   width: size * vh_rate + 'px', height: size + 'px' }">
+                   width: width + 'px',
+                   height: height + 'px' }">
 
       <!-- Show Mode(Have link) -->
       <a v-for="item in items" :href="item.url" v-if="!is_edit">
@@ -63,12 +64,12 @@
               :y="item.coordinate.y"
               :rx="rx"
               :ry="ry"
-              :height="height"
-              :width="width"
+              :height="item_height"
+              :width="item_width"
               :stroke="item.stroke"
-              :stroke-width="width" />
+              :stroke-width="item_width" />
         <text :x="item.coordinate.x"
-              :y="item.coordinate.y + height / 2"
+              :y="item.coordinate.y + item_height / 2"
               :fill="font_color"
               :font-size="font_size">
           {{ item.name }}
@@ -86,13 +87,13 @@
               :y="item.coordinate.y"
               :rx="rx"
               :ry="ry"
-              :height="height"
-              :width="width"
+              :height="item_height"
+              :width="item_width"
               :stroke="item.stroke"
-              :stroke-width="width" />
+              :stroke-width="item_width" />
         <text :x="item.coordinate.x"
-              :y="item.coordinate.y + height / 2"
-              :textLength="width"
+              :y="item.coordinate.y + item_height / 2"
+              :textLength="item_width"
               :fill="font_color"
               :font-size="font_size">
           {{ item.name }}

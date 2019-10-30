@@ -1,19 +1,16 @@
 new Vue({
   el: "#app",
   data: {
-    url: "https://1.bp.blogspot.com/-5S8rmtezagQ/UnyHakT62TI/AAAAAAAAajc/TsAKmkq0wIE/s800/nihonchizu_area.png",
-    vh_rate: 1,
+    url: "https://1.bp.blogspot.com/-5S8rmtezagQ/UnyHakT62TI/AAAAAAAAajc/TsAKmkq0wIE/s800/nihonchizu_area.png",  // map url
+    vh_rate: 1.0,  // (vertical / horizon)
     size: 500,
-    height: 10,
-    width: 20,
     rx: 0.1,
     ry: 0.1,
     font_color: "black",
-    font_size: 10,
     selected: null,
     is_edit: true,
     items: [],
-    bef_items: [],
+    bef_items: [],  // for map size changing
     prev_pos: {  // previous coordinate
       x: 0,
       y: 0,
@@ -22,6 +19,7 @@ new Vue({
     saved_data: "",
   },
   mounted: function () {
+    // setup data from data.json file
     const req = new XMLHttpRequest();
     req.open("GET", "data.json", false);
     req.send(null);
@@ -29,24 +27,33 @@ new Vue({
     this.load(data.items);
     this.save();
   },
+  computed: {
+    width () { return this.size * this.vh_rate },  // map width
+    height () { return this.size },  // map height
+    item_width () { return this.size / 25 },  // item width
+    item_height () { return this.size / 50 },  // item height
+    font_size () { return this.size / 50 },
+  },
   methods: {
+    // Slider for changing map size
     slide_start: function () {
       this.bef_items = [];
       for (let i = 0; i <= this.items.length; i += 1) {
         this.bef_items.push({
-          x: this.items[i].coordinate.x / (this.size * this.vh_rate),
-          y: this.items[i].coordinate.y / this.size
+          x: this.items[i].coordinate.x / this.width,
+          y: this.items[i].coordinate.y / this.height
         })
       }
     },
     slide_end: function () {
       for (let i = 0; i <= this.items.length; i += 1) {
         this.items[i].coordinate = {
-          x: this.bef_items[i].x * (this.size * this.vh_rate),
-          y: this.bef_items[i].y * this.size
+          x: this.bef_items[i].x * this.width,
+          y: this.bef_items[i].y * this.height
         }
       }
     },
+    // selector for moving item
     select_item: function (id) {
       this.selected = id;
     },
@@ -55,6 +62,7 @@ new Vue({
         this.selected = null;
       }
     },
+    // funcs for moving item
     move_start: function (e) {
       // initialize moving
       if (this.is_edit) {
@@ -91,15 +99,17 @@ new Vue({
         console.log("end:   [%d, %d]", this.prev_pos.x, this.prev_pos.y);
       }
     },
+    // update map from saved_data(json string)
     load_from_data: function () {
       let data = JSON.parse(this.saved_data);
       this.load(data.items);
     },
+    // update map from item objects
     load: function (items) {
       this.items = items;
       for (let item of this.items) {
-        item.coordinate.x = item.coordinate.x * (this.size * this.vh_rate);
-        item.coordinate.y = item.coordinate.y * this.size;
+        item.coordinate.x = item.coordinate.x * this.width;
+        item.coordinate.y = item.coordinate.y * this.height;
         item.stroke = `rgb(${item.rgb[0]}, ${item.rgb[1]}, ${item.rgb[2]})`;
       };
     },
@@ -119,8 +129,8 @@ new Vue({
           name: item.name,
           url: item.url,
           coordinate: {
-            x: item.coordinate.x / (this.size * this.vh_rate),
-            y: item.coordinate.y / this.size
+            x: item.coordinate.x / this.width,
+            y: item.coordinate.y / this.height
           },
           rgb: item.rgb,
         })
